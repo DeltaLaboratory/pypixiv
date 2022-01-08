@@ -4,6 +4,7 @@ import httpx as _httpx
 
 from . import _models
 from . import _responses
+from . import _exceptions
 
 
 class _Defaults:
@@ -51,10 +52,15 @@ class Client:
         :parameter lang: language / ex : ko
         :return: tuple of models.Image
         :rtype: tuple[_models.Image]
+        :exception ArtworkNotFound: if artwork is not exists or deleted
         """
         pages: _responses.ArtworkPages = _responses.ArtworkPages(**(await self.client.get(
             url=f"ajax/illust/{artwork_id}/pages{f'?lang={lang}' if lang else ''}"
         )).json())
+        if pages.error:
+            raise _exceptions.ArtworkNotFound(
+                f"an error occurred while retrieve artwork information : {pages.message}"
+            )
         return tuple(
             _models.Image(
                 thumb=page.urls.thumb_mini,
