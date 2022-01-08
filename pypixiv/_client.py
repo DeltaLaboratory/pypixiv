@@ -78,5 +78,22 @@ class Client:
         :param url: an url provided at get_artwork
         :return: an image
         :rtype: bytes
+        :exception _httpx.HTTPError: if an error occurred while loading image
+        :exception InternalError: when unexpected status code returned
         """
-        return (await self.client.get(url)).content
+        response: _httpx.Response = await self.client.get(url=url)
+        match response.status_code:
+            case 200:
+                return response.content
+            case 403:
+                raise _httpx.HTTPError(
+                    f"an error occurred while retrieve image : 403 Forbidden : {response.text}"
+                )
+            case 404:
+                raise _httpx.HTTPError(
+                    f"an error occurred while retrieve image : 404 Not Found : {response.text}"
+                )
+            case default:
+                raise _exceptions.InternalError(
+                    f"unexpected status code : {default} : {response.text} : get_image[match][case default]\nplease report this to developer"
+                )
