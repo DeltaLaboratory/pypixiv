@@ -20,7 +20,8 @@ class _Defaults:
 
 class Client:
 
-    def __init__(self, *, scheme: str = None, base_url: str = None, user_agent: str = None) -> None:
+    def __init__(self, *, scheme: str = None, base_url: str = None, user_agent: str = None,
+                 client: _httpx.AsyncClient = None) -> None:
         """
         init function \n
         :parameter scheme: if not provided, use _Defaults.SCHEME [ https ]
@@ -42,8 +43,9 @@ class Client:
             headers={
                 "referer": f"{scheme}://{base_url}/",
                 "user-agent": user_agent if user_agent else _Defaults.USER_AGENT,
-            }
-        )
+            },
+            http2=True
+        ) if not client else client
 
     async def get_artwork(self, artwork_id: int, *, lang: str = None) -> tuple[_models.Image]:
         """
@@ -55,7 +57,8 @@ class Client:
         :exception ArtworkNotFound: if artwork is not exists or deleted
         """
         pages: _responses.ArtworkPages = _responses.ArtworkPages(**(await self.client.get(
-            url=f"ajax/illust/{artwork_id}/pages{f'?lang={lang}' if lang else ''}"
+            url=f"ajax/illust/{artwork_id}/pages{f'?lang={lang}' if lang else ''}",
+            follow_redirects=True
         )).json())
         if pages.error:
             raise _exceptions.ArtworkNotFound(
@@ -75,7 +78,7 @@ class Client:
     async def get_image(self, url: str) -> bytes:
         """
         get an image - you should load image with this method \n
-        :param url: an url provided at get_artwork
+        :parameter url: an url provided at get_artwork
         :return: an image
         :rtype: bytes
         :exception _httpx.HTTPError: if an error occurred while loading image
@@ -97,3 +100,29 @@ class Client:
                 raise _exceptions.InternalError(
                     f"unexpected status code : {default} : {response.text} : get_image[match][case default]\nplease report this to developer"
                 )
+
+    async def login(self, identifier: str, password: str) -> None:
+        """
+        login pixiv \n
+        :parameter identifier: pixiv id
+        :parameter password: pixiv password
+        :return: None
+        :rtype: None
+        :raise NotImplementedError
+        """
+        raise NotImplementedError("login is not implemented yet")
+
+    async def get_tag(self, tag: str, *, lang: str = None):
+        """
+        get tag information
+        :parameter tag: tag
+        :parameter lang: language / ex : ko
+        :return: None
+        """
+        information: _responses.Tag = _responses.Tag(
+            **(await self.client.get(
+                url=f"ajax/search/tags/{tag}{f'?lang={lang}' if lang else ''}",
+                follow_redirects=True,
+            )).json()
+        )
+        return information
