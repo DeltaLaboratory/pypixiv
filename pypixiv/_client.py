@@ -1,3 +1,5 @@
+import asyncio as _asyncio
+import logging as _logging
 import typing as _typing
 
 import httpx as _httpx
@@ -27,6 +29,7 @@ class Client:
         :parameter scheme: if not provided, use _Defaults.SCHEME [ https ]
         :parameter base_url: if not provided, use _Defaults.BASE_URL [ pixiv.net ]
         :parameter user_agent: if not provided, use _Defaults.USER_AGENT [ ... ]
+        :parameter client: if not provided, use httpx.AsyncClient(), if provided, ignore scheme, base_url, user_agent
         :return None
         :rtype None
         :raise ValueError: if scheme is not in http nor https
@@ -126,3 +129,17 @@ class Client:
             )).json()
         )
         return information
+
+    def __del__(self) -> None:
+        """
+        close AsyncClient automatically
+        :return:
+        """
+        try:
+            loop = _asyncio.get_event_loop()
+            if loop.is_running():
+                loop.create_task(self.client.aclose())
+            else:
+                loop.run_until_complete(self.client.aclose())
+        except Exception as e:
+            _logging.warning(f"failed to close AsyncClient automatically due to {e}:{type(e).__name__}")
