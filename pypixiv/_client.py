@@ -148,13 +148,13 @@ class Client:
         except Exception as e:
             _logging.warning(f"failed to close AsyncClient automatically due to {e}:{type(e).__name__}")
 
-    async def __aenter__(self) -> None:
+    async def __aenter__(self) -> 'Client':
         """
         asynchronous context manager enter method \n
-        :return: None
-        :rtype: None
+        :return: Client
+        :rtype: Client
         """
-        return None
+        return self
 
     async def __aexit__(self, exception_type: _typing.Union[None, type],
                         exception_value: _typing.Union[None, Exception],
