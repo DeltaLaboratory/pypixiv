@@ -84,7 +84,7 @@ class Client:
         :parameter url: an url provided at get_artwork
         :return: an image
         :rtype: bytes
-        :exception _httpx.HTTPError: if an error occurred while loading image
+        :exception httpx.HTTPError: if an error occurred while loading image
         :exception InternalError: when unexpected status code returned
         """
         response: _httpx.Response = await self.client.get(url=url)
@@ -130,6 +130,8 @@ class Client:
             )).json()
         )
         return information
+
+    # special methods
 
     def __del__(self) -> None:
         """
