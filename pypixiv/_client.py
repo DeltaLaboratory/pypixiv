@@ -9,7 +9,7 @@ from . import _responses
 from . import _exceptions
 
 
-class _Defaults:
+class _DEFAULTS:
     SCHEME: _typing.Final[str] = "https"
     BASE_URL: _typing.Final[str] = "pixiv.net"
     USER_AGENT: _typing.Final[str] = \
@@ -35,17 +35,17 @@ class Client:
         :raise ValueError: if scheme is not in http nor https
         """
         if not scheme:
-            scheme = _Defaults.SCHEME
+            scheme = _DEFAULTS.SCHEME
         else:
             if scheme.lower() not in ("http", "https"):
                 raise ValueError("scheme must be http or https")
         if not base_url:
-            base_url = _Defaults.BASE_URL
+            base_url = _DEFAULTS.BASE_URL
         self.client = _httpx.AsyncClient(
             base_url=f"{scheme}://{base_url}",
             headers={
                 "referer": f"{scheme}://{base_url}/",
-                "user-agent": user_agent if user_agent else _Defaults.USER_AGENT,
+                "user-agent": user_agent if user_agent else _DEFAULTS.USER_AGENT,
             },
             http2=True
         ) if not client else client
