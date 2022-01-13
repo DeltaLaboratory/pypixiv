@@ -1,6 +1,7 @@
 import asyncio as _asyncio
 import logging as _logging
 import typing as _typing
+import traceback as _traceback
 
 import httpx as _httpx
 
@@ -117,10 +118,11 @@ class Client:
 
     async def get_tag(self, tag: str, *, lang: str = None):
         """
-        get tag information
+        get tag information \n
         :parameter tag: tag
         :parameter lang: language / ex : ko
         :return: None
+        :rtype: None
         """
         information: _responses.Tag = _responses.Tag(
             **(await self.client.get(
@@ -132,8 +134,9 @@ class Client:
 
     def __del__(self) -> None:
         """
-        close AsyncClient automatically
-        :return:
+        close AsyncClient automatically \n
+        :return: None
+        :rtype: None
         """
         try:
             loop = _asyncio.get_event_loop()
@@ -143,3 +146,25 @@ class Client:
                 loop.run_until_complete(self.client.aclose())
         except Exception as e:
             _logging.warning(f"failed to close AsyncClient automatically due to {e}:{type(e).__name__}")
+
+    async def __aenter__(self) -> None:
+        """
+        asynchronous context manager enter method \n
+        :return: None
+        :rtype: None
+        """
+        return None
+
+    async def __aexit__(self, exception_type: _typing.Union[None, type],
+                        exception_value: _typing.Union[None, Exception],
+                        exception_traceback: _typing.Union[None, _typing.Any]) -> None:
+        """
+        asynchronous context manager exit method \n
+        :parameter exception_type: exception type
+        :parameter exception_value: exception class
+        :parameter exception_traceback: exception traceback class
+        :return: None
+        :rtype: None
+        """
+        await self.client.aclose()
+        return None
