@@ -22,7 +22,7 @@ class _DEFAULTS:
 
 class Client:
 
-    def __init__(self, *, scheme: str = None, base_url: str = None, user_agent: str = None,
+    def __init__(self, *, scheme: _typing.Literal["http", "https"] = None, base_url: str = None, user_agent: str = None,
                  client: _httpx.AsyncClient = None) -> None:
         """
         init function \n
@@ -50,7 +50,7 @@ class Client:
             http2=True
         ) if not client else client
 
-    async def get_artwork_images(self, artwork_id: int, *, lang: str = None) -> tuple[_models.Image]:
+    async def get_artwork_images(self, artwork_id: str, *, lang: str = None) -> tuple[_models.Image]:
         """
         get artwork images \n
         :parameter artwork_id: artwork id
