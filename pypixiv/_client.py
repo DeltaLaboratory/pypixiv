@@ -117,11 +117,11 @@ class Client:
 
     async def get_tag(self, tag: str, *, lang: str = None):
         """
-        get tag information \n
+        [unstable|WIP] get tag information \n
         :parameter tag: tag
         :parameter lang: language / ex : ko
-        :return: None
-        :rtype: None
+        :return: any
+        :rtype: any
         """
         information: _responses.Tag = _responses.Tag(
             **(await self.client.get(
