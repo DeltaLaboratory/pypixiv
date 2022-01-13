@@ -50,7 +50,7 @@ class Client:
             http2=True
         ) if not client else client
 
-    async def get_artwork(self, artwork_id: int, *, lang: str = None) -> tuple[_models.Image]:
+    async def get_artwork_images(self, artwork_id: int, *, lang: str = None) -> tuple[_models.Image]:
         """
         get artwork images \n
         :parameter artwork_id: artwork id
