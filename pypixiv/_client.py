@@ -1,7 +1,6 @@
 import asyncio as _asyncio
 import logging as _logging
 import typing as _typing
-import traceback as _traceback
 
 import httpx as _httpx
 
