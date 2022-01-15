@@ -12,13 +12,13 @@ class ArtworkImage(_pydantic.BaseModel):
 
 
 class Pixpedia(_pydantic.BaseModel):
-    id: str = ""
-    description: str = ""
-    image: str = ""
-    parent: str = ""
-    children: list[str] = []
-    siblings: list[str] = []
-    yomigana: str = ""
+    id: str
+    description: str
+    image: str
+    parent: str
+    children: list[str]
+    siblings: list[str]
+    yomigana: str
 
 
 class Tag(_pydantic.BaseModel):
