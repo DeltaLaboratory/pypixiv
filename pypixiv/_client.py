@@ -47,28 +47,28 @@ class Client:
                 "referer": f"{scheme}://{base_url}/",
                 "user-agent": user_agent if user_agent else _DEFAULTS.USER_AGENT,
             },
-            http2=True
+            http2=True,
+            follow_redirects=True,
         ) if not client else client
 
-    async def get_artwork_images(self, artwork_id: str, *, lang: str = None) -> tuple[_models.Image]:
+    async def get_artwork_images(self, artwork_id: str, *, lang: str = None) -> tuple[_models.ArtworkImage]:
         """
         get artwork images \n
         :parameter artwork_id: artwork id
         :parameter lang: language / ex : ko
-        :return: tuple of models.Image
-        :rtype: tuple[_models.Image]
-        :exception ArtworkNotFound: if artwork is not exists or deleted
+        :return: tuple of models.ArtworkImage
+        :rtype: tuple[models.ArtworkImage]
+        :exception ArtworkNotFound: if artwork is not exists or deleted or tried get r18 artwork while not logged in
         """
         pages: _responses.ArtworkPages = _responses.ArtworkPages(**(await self.client.get(
             url=f"ajax/illust/{artwork_id}/pages{f'?lang={lang}' if lang else ''}",
-            follow_redirects=True
         )).json())
         if pages.error:
             raise _exceptions.ArtworkNotFound(
                 f"an error occurred while retrieve artwork information : {pages.message}"
             )
         return tuple(
-            _models.Image(
+            _models.ArtworkImage(
                 thumb=page.urls.thumb_mini,
                 small=page.urls.small,
                 regular=page.urls.regular,
@@ -81,7 +81,7 @@ class Client:
     async def get_image(self, url: str) -> bytes:
         """
         get an image - you should load image with this method \n
-        :parameter url: an url provided at get_artwork
+        :parameter url: pixiv image url
         :return: an image
         :rtype: bytes
         :exception httpx.HTTPError: if an error occurred while loading image
@@ -101,7 +101,7 @@ class Client:
                 )
             case default:
                 raise _exceptions.InternalError(
-                    f"unexpected status code : {default} : {response.text} : get_image[match][case default]\nplease report this to developer"
+                    f"I00: unexpected status code : {default} : {response.text}\nplease report this to developer"
                 )
 
     async def login(self, identifier: str, password: str) -> None:
@@ -115,21 +115,33 @@ class Client:
         """
         raise NotImplementedError("login is not implemented yet")
 
-    async def get_tag(self, tag: str, *, lang: str = None):
+    async def search_tag(self, tag: str, *, lang: str = None) -> _models.Tag:
         """
-        [unstable|WIP] get tag information \n
+        search tag information \n
         :parameter tag: tag
         :parameter lang: language / ex : ko
-        :return: any
-        :rtype: any
+        :return: models.Tag
+        :rtype: models.Tag
         """
-        information: _responses.Tag = _responses.Tag(
+        response: _responses.Tag = _responses.Tag(
             **(await self.client.get(
                 url=f"ajax/search/tags/{tag}{f'?lang={lang}' if lang else ''}",
-                follow_redirects=True,
             )).json()
         )
-        return information
+        return _models.Tag(
+            tag=response.body.tag,
+            word=response.body.word,
+            tag_translation=response.body.tagTranslation[response.body.tag] if response.body.tagTranslation else {},
+            pixpedia=_models.Pixpedia(
+                id=response.body.pixpedia.id,
+                description=response.body.pixpedia.abstract,
+                image=response.body.pixpedia.image,
+                parent=response.body.pixpedia.parentTag,
+                children=response.body.pixpedia.childrenTags,
+                siblings=response.body.pixpedia.siblingsTags,
+                yomigana=response.body.pixpedia.yomigana,
+            )
+        )
 
     # special methods
 

@@ -31,17 +31,18 @@ class TagBodyBreadCrumbs(_pydantic.BaseModel):
 
 
 class TagBodyPixpedia(_pydantic.BaseModel):
-    abstract: str
-    id: str
-    image: str
-    parentTag: str
-    siblingsTags: list[str]
-    yomigana: str
+    abstract: str = ""
+    id: str = ""
+    image: str = ""
+    parentTag: str = ""
+    siblingsTags: list[str] = []
+    childrenTags: list[str] = []
+    yomigana: str = ""
 
 
 class TagBody(_pydantic.BaseModel):
     tag: str
-    tagTranslation: list[str]
+    tagTranslation: dict[str, dict[str, str]]
     word: str
     myFavoriteTags: list[str]
     pixpedia: TagBodyPixpedia
