@@ -143,6 +143,34 @@ class Client:
             )
         )
 
+    async def search(self, query: str, *,
+                     exclude_tag: list[str] = None,
+                     tag_match: _typing.Literal["partial", "exact"] = "partial",
+                     min_height: int = None,
+                     max_height: int = None,
+                     min_width: int = None,
+                     max_width: int = None,
+                     tool: _typing.Literal["3D-Coat", "4thPaint", "Acrylic paint", "AfterEffects", "Airbrush",
+                                           "AnimationMaster", "ArtRage", "Aseprite", "AzDrawing", "AzDrawing2",
+                                           "AzPainter3", "Ballpoint pen", "Blender", "Brush", "Bryce", "CARRARA",
+                                           "CINEMA4D", "CLIP STUDIO PAINT", "COMICWORKS", "Calligraphy pen",
+                                           "Color ink", "Colored pencil", "Comi Po!", "ComiLabo", "ComicStudio",
+                                           "Copic marker", "Coupy pencil", "Crayon", "DAZ Studio", "Dip pen",
+                                           "EDGE", "Expression", "Felt-tip pen", "FireAlpaca", "Fireworks",
+                                           "Fountain pen", "GIMP", "Gansai", "GraphicsGale", "Hexagon King",
+                                           "IllustStudio", "Illustrator", "Inkscape", "Krita", "Lightwave3D",
+                                           "Live2D", "MS_Paint", "Maya", "Mechanical pencil", "MediBang Paint",
+                                           "Metasequoia", "NekoPaint", "Oekaki Chat", "Oil paint", "Paint", "Paint 3D",
+                                           "PaintShopPro", "Painter", "Paintgraphic", "Pastel Crayons", "Pastels",
+                                           "Pencil", "PhotoStudio", "Photoshop", "PictBear", "PicturePublisher",
+                                           "Pixelmator", "Pixia", "Poser", "Processing", "Procreate", "RETAS STUDIO",
+                                           "SAI", "STRATA", "Sculptris", "Shade", "SketchBookPro", "SketchUp",
+                                           "Sunny3D", "Tegaki Blog", "Thin maker", "VRoid Studio", "VistaPro",
+                                           "Vue", "Watercolor brush", "Watercolors", "XSI", "ZBrush", "dotpict",
+                                           "drawr", "e-mote", "ibisPaint", "kokuban.in", "magic marker", "mdiapp",
+                                           "modo", "openCanvas", "pixiv Sketch"]):
+        pass
+
     # special methods
 
     def __del__(self) -> None:
