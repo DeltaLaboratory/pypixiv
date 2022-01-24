@@ -3,12 +3,12 @@ this library is a fully-typed, asynchronous api wrapper for pixiv.
 
 ## features
 * search
- - tag search
- - [wip] search by keyword
+  - tag search
+  - [wip] search by keyword
 * illust
- - get artwork image by size
- - user
- - [wip] login
+  - get artwork image by size
+* user
+  - [wip] login
 
 ## examples
 [None]
