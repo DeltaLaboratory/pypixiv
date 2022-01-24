@@ -16,7 +16,7 @@ this library is a fully-typed, asynchronous api wrapper for pixiv.
 ## workflow
 | branch | CodeQL                                                                                                                                                                    | Lint & Test & Check                                                                                                                                                                        |
 |--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| main   | [![CodeQL](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/codeql.yaml/badge.svg)](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/codeql.yaml) | [![Lint & Test & Check](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/lint_test.yml/badge.svg)](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/lint_test.yml) |
+| master | [![CodeQL](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/codeql.yaml/badge.svg)](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/codeql.yaml) | [![Lint & Test & Check](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/lint_test.yml/badge.svg)](https://github.com/DeltaLaboratory/pypixiv/actions/workflows/lint_test.yml) |
 
 ## updates
 [None]
