@@ -169,7 +169,7 @@ class Client:
                                            "Vue", "Watercolor brush", "Watercolors", "XSI", "ZBrush", "dotpict",
                                            "drawr", "e-mote", "ibisPaint", "kokuban.in", "magic marker", "mdiapp",
                                            "modo", "openCanvas", "pixiv Sketch"]):
-        pass
+        raise NotImplementedError("search is not implemented yet")
 
     # special methods
 
