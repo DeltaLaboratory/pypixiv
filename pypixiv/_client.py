@@ -196,9 +196,9 @@ class Client:
         """
         return self
 
-    async def __aexit__(self, exception_type: _typing.Union[None, type],
-                        exception_value: _typing.Union[None, Exception],
-                        exception_traceback: _typing.Union[None, _typing.Any]) -> None:
+    async def __aexit__(self, exception_type: None | type,
+                        exception_value: None | Exception,
+                        exception_traceback: None | _typing.Any) -> None:
         """
         asynchronous context manager exit method \n
         :parameter exception_type: exception type
