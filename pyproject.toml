@@ -9,7 +9,7 @@ authors = [
 [tool.poetry.dependencies]
 python = "^3.10"
 
-pydantic = "^1.9.2"
+pydantic = "^1.10.2"
 httpx = "^0.23.0"
 h2 = "^4.1.0"
 
